@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: reservaclub-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: { name: reservaclub-db, property: connectionString }
+      - key: CORS_ORIGIN
+        sync: false
+      - key: TZ
+        value: America/Argentina/Buenos_Aires
+
+databases:
+  - name: reservaclub-db
+    plan: free
